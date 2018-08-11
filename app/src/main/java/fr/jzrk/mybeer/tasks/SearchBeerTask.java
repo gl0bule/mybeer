@@ -12,12 +12,22 @@ public class SearchBeerTask extends AsyncTask<String, Void, List<Beer>> {
 
     private final SearchBeerService searchbeerservice;
 
-    public SearchBeerTask() {
+    private final ITaskListener<List<Beer>> listener;
+
+
+    public SearchBeerTask(ITaskListener<List<Beer>> listener) {
         searchbeerservice = new SearchBeerService();
+        this.listener = listener;
     }
 
     @Override
     protected List<Beer> doInBackground(String... query) {
         return searchbeerservice.searchBeer(query[0]);
+    }
+
+    @Override
+    protected void onPostExecute(List<Beer> beers) {
+        super.onPostExecute(beers);
+        this.listener.onTaskFinished(this);
     }
 }

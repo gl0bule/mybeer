@@ -37,7 +37,7 @@ public class SearchBeerService implements ISearchBeerService{
     @Override
     public List<Beer> searchBeer(String query) {
         URI uri = UriComponentsBuilder.fromHttpUrl(BASE_URI)//
-                .path("search")//
+                .path("/search")//
                 .queryParam("key", KEY)//
                 .queryParam("q", query)//
                 .build()//
@@ -54,7 +54,10 @@ public class SearchBeerService implements ISearchBeerService{
         ResponseEntity<SearchResponse> responseEntity = restTemplate
                 .exchange(uri, HttpMethod.GET, httpEntity, SearchResponse.class );
 
-        Log.d(LOG_TAG, "nb beers: " + responseEntity.getBody().getData().size());
+        Log.i(LOG_TAG, "nb beers: " + responseEntity
+                .getBody()//
+                .getData()//
+                .size());
 
 
         return responseEntity.getBody().getData();
